@@ -1,0 +1,2 @@
+Hello Dahboard
+@yield('content')
