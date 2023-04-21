@@ -41,24 +41,24 @@ class Dashboard extends \App\Http\Controllers\Controller
 
              $request->validate([
                'email'=>'required',
-                'password'=>'required'
+                'password'=>'required|min:5|max:12'
              ]);
 
-             $adminuser = new AdminUser();
+             $adminuser = new AdminUser(); 
              //$adminuser->email=$request->email;
              //$adminuser->password=$request->password;
-             $user = $adminuser->where('email','=',$request->email)->first();
+             $user = $adminuser->where('email','=',$request->email)->first(); 
              if($user){  //echo $request->password; echo "<br>"; echo $user->password; die;
                  if(Hash::check($request->password,$user->password)){
                        $request->session()->put('adminuserId',$user->id);
                         return redirect('/admin/dashboard');
                  }else{ 
-                    return back()->with('message','password does not match');
+                    return back()->with('fail','password does not match');
                  }
 
              }
              else{
-                return back()->with('message','This email is not registered');
+                return back()->with('fail','This email is not registered');
              }
      }
 }
